@@ -169,9 +169,9 @@ export const defaultThemeConfig = {
         },
         footer: {
             textColor: '#303235',
-            text: 'Powered by',
-            company: 'Flowise',
-            companyLink: 'https://flowiseai.com'
+            text: 'AI can make mistakes, always double-check.',
+            company: 'Contact Us',
+            companyLink: 'mailto:mail.rps.active@proton.me'
         }
     }
 }
