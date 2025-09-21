@@ -85,6 +85,7 @@ const App = () => {
 };`
 }
 
+// ⭐ Default theme config (branding removed via CSS)
 export const defaultThemeConfig = {
     button: {
         backgroundColor: '#3B81F6',
@@ -117,7 +118,12 @@ export const defaultThemeConfig = {
         blurredBackgroundColor: 'rgba(0, 0, 0, 0.4)',
         backgroundColor: 'white'
     },
-    customCSS: ``,
+    // 👇 This CSS hides Flowise branding
+    customCSS: `
+        .flowise-footer {
+            display: none !important;
+        }
+    `,
     chatWindow: {
         showTitle: true,
         showAgentMessages: true,
