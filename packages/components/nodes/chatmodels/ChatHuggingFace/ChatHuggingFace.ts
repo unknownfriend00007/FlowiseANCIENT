@@ -129,12 +129,18 @@ class ChatHuggingFace_ChatModels implements INode {
             apiKey: huggingFaceApiKey
         }
 
+        // Set the new router endpoint as default if no custom endpoint is provided
+        if (!endpoint) {
+            obj.endpointUrl = 'https://router.huggingface.co/v1'
+        } else {
+            obj.endpointUrl = endpoint
+        }
+
         if (temperature) obj.temperature = parseFloat(temperature)
         if (maxTokens) obj.maxTokens = parseInt(maxTokens, 10)
         if (topP) obj.topP = parseFloat(topP)
         if (hfTopK) obj.topK = parseFloat(hfTopK)
         if (frequencyPenalty) obj.frequencyPenalty = parseFloat(frequencyPenalty)
-        if (endpoint) obj.endpointUrl = endpoint
         if (stop) {
             const stopSequences = stop.split(',')
             obj.stopSequences = stopSequences
