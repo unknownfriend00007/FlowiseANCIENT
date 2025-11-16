@@ -3,6 +3,29 @@ import { getEnvironmentVariable } from '../../../src/utils'
 import { GenerationChunk } from '@langchain/core/outputs'
 import { CallbackManagerForLLMRun } from '@langchain/core/callbacks/manager'
 
+// Define the allowed provider types
+type InferenceProvider = 
+    | 'auto'
+    | 'openai'
+    | 'replicate'
+    | 'baseten'
+    | 'black-forest-labs'
+    | 'cerebras'
+    | 'clarifai'
+    | 'cohere'
+    | 'fal-ai'
+    | 'featherless-ai'
+    | 'fireworks-ai'
+    | 'groq'
+    | 'hf-inference'
+    | 'hunyuan'
+    | 'hyperbolic'
+    | 'nebius-ai'
+    | 'nvidia'
+    | 'octoai'
+    | 'sambanova'
+    | 'together-ai'
+
 export interface HFInput {
     model: string
     temperature?: number
@@ -14,7 +37,7 @@ export interface HFInput {
     apiKey?: string
     endpointUrl?: string
     includeCredentials?: string | boolean
-    provider?: string  // ADD THIS LINE
+    provider?: InferenceProvider  // CHANGED: Use specific type instead of string
 }
 
 export class HuggingFaceInference extends LLM implements HFInput {
@@ -44,7 +67,7 @@ export class HuggingFaceInference extends LLM implements HFInput {
 
     includeCredentials: string | boolean | undefined = undefined
 
-    provider: string | undefined = undefined  // ADD THIS LINE
+    provider: InferenceProvider | undefined = undefined  // CHANGED: Use specific type
 
     constructor(fields?: Partial<HFInput> & BaseLLMParams) {
         super(fields ?? {})
@@ -59,7 +82,7 @@ export class HuggingFaceInference extends LLM implements HFInput {
         this.apiKey = fields?.apiKey ?? getEnvironmentVariable('HUGGINGFACEHUB_API_KEY')
         this.endpointUrl = fields?.endpointUrl
         this.includeCredentials = fields?.includeCredentials
-        this.provider = fields?.provider ?? 'auto'  // ADD THIS LINE - defaults to 'auto'
+        this.provider = fields?.provider ?? 'auto'  // CHANGED: Explicitly set to 'auto' (typed literal)
         if (!this.apiKey) {
             throw new Error(
                 'Please set an API key for HuggingFace Hub in the environment variable HUGGINGFACEHUB_API_KEY or in the apiKey field of the HuggingFaceInference constructor.'
@@ -74,7 +97,7 @@ export class HuggingFaceInference extends LLM implements HFInput {
     invocationParams(options?: this['ParsedCallOptions']) {
         return {
             model: this.model,
-            provider: this.provider,  // ADD THIS LINE
+            provider: this.provider,
             parameters: {
                 // make it behave similar to openai, returning only the generated text
                 return_full_text: false,
