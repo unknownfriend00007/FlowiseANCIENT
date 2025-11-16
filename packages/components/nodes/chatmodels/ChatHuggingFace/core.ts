@@ -121,10 +121,9 @@ export class HuggingFaceInference extends LLM implements HFInput {
     private async _prepareHFInference() {
         const { HfInference } = await HuggingFaceInference.imports()
         
-        // Initialize HfInference with the new router endpoint as baseUrl
+        // Initialize HfInference - version 4.x handles the new endpoint automatically
         const hfi = new HfInference(this.apiKey, {
-            includeCredentials: this.includeCredentials,
-            baseUrl: 'https://router.huggingface.co/hf-inference'
+            includeCredentials: this.includeCredentials
         })
         
         return this.endpointUrl ? hfi.endpoint(this.endpointUrl) : hfi
